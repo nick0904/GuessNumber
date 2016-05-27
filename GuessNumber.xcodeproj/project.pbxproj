@@ -64,9 +64,7 @@
 			children = (
 				D13C9C731CECD15500DAA877 /* AppDelegate.swift */,
 				D13C9C751CECD15500DAA877 /* ViewController.swift */,
-				D13C9C851CECD20D00DAA877 /* NextViewController.swift */,
-				D13C9C871CECD26300DAA877 /* RotationBtView.swift */,
-				D13C9C891CECD2A000DAA877 /* MyImgView.swift */,
+				D1B80D8F1CF6E4D900AC537E /* Rotation */,
 				D13C9C8B1CECD2CE00DAA877 /* ThirdViewController.swift */,
 				D13C9C8D1CECD33800DAA877 /* TipViewController.swift */,
 				D13C9C7A1CECD15500DAA877 /* Assets.xcassets */,
@@ -74,6 +72,16 @@
 				D13C9C7F1CECD15500DAA877 /* Info.plist */,
 			);
 			path = GuessNumber;
+			sourceTree = "<group>";
+		};
+		D1B80D8F1CF6E4D900AC537E /* Rotation */ = {
+			isa = PBXGroup;
+			children = (
+				D13C9C851CECD20D00DAA877 /* NextViewController.swift */,
+				D13C9C871CECD26300DAA877 /* RotationBtView.swift */,
+				D13C9C891CECD2A000DAA877 /* MyImgView.swift */,
+			);
+			name = Rotation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,6 +304,7 @@
 				D13C9C841CECD15500DAA877 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

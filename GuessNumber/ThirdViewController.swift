@@ -1,16 +1,10 @@
-//
-//  ThirdViewController.swift
-//  GuessNumber
-//
-//  Created by 曾偉亮 on 2016/5/19.
-//  Copyright © 2016年 TSENG. All rights reserved.
-//
+
 
 import UIKit
 
 class ThirdViewController: UIViewController,UITextFieldDelegate {
 
-    //MARK: - Basic 相關宣告
+    // Basic 相關宣告
     var aryImgView = [UIImageView]()
     var answer:Int?
     var answerLabel:UILabel?
@@ -23,7 +17,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     var count:Int? = 0
     var num:Int?
     
-    //MARK: - 選單 相關宣告
+    // 選單 相關宣告
     var isMenuAppear:Bool = false //設定選單一開始關閉
     var menuBtbackView:UIView? //選單背景
     var menuBt:UIButton? //選單按鈕
@@ -33,14 +27,14 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     var btNumber:UIButton! //猜數字2 按鈕
     var blurView:UIVisualEffectView? //產生模糊畫面
     
-    //MARK: 其它頁面相關宣告
+    // 其它頁面相關宣告
     var letterView:ViewController? //猜字母頁面
     var numView:NextViewController? //猜數字2頁面
     var tipView:TipViewController?
     var m_parentObj:AnyObject?
     
-    //MARK: - Normal function
-    //------------------------------------
+//MARK: - Normal function
+//-----------------------
     func refreashFrame(frame:CGRect) {
         
         self.view.frame = frame
@@ -123,8 +117,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     
-    //MARK: - 限制輸入的數字長度
-    //------------------------------------
+//MARK: - 限制輸入的數字長度
+//-----------------------
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         if textField == guessNum {
@@ -144,8 +138,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return true
     }
     
-    //MARK: - BtAction
-    //------------------------------------
+//MARK: - BtAction
+//----------------
     func guessBtAction(sender:UIButton){
         
         guessNum?.resignFirstResponder()//鍵盤消失
@@ -218,8 +212,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         self.view.addSubview(messageLabel!)
     }
     
-    //MARK: - onRestartAction (再玩一次)
-    //------------------------------------
+//MARK: - onRestartAction (再玩一次)
+//---------------------------------
     func onRestartAction(sender:UIButton){
         
         isMenuAppear = false
@@ -246,15 +240,15 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    //MARK: - 讓guessBt恢復功能
-    //------------------------------------
+//MARK: - 讓guessBt恢復功能
+//------------------------
     func guessBtReAction(){
         
         guessBt?.enabled = true
     }
     
-    //MARK: - viewMove (雲朵移動)
-    //------------------------------------
+//MARK: - viewMove (雲朵移動)
+//--------------------------
     func viewMove(imageView:UIImageView, centerLocationTo:CGPoint){
         
         UIView.beginAnimations("cloudMove", context: nil)
@@ -265,15 +259,15 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     
-    //MARK: - Override Function
-    //----------------------------------
+//MARK: - Override Function
+//-------------------------
     override func prefersStatusBarHidden() -> Bool {
         
         return true
     }
     
-    //MARK: - onMenuBtAction 菜單按鈕的方法
-    //------------------------------
+//MARK: - onMenuBtAction 菜單按鈕的方法
+//----------------------------------
     func onMenuBtAction(sender:UIButton) {
         
         isMenuAppear = isMenuAppear == false ? true : false
@@ -285,8 +279,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    //MARK: - showSelectedView 產生菜單
-    //------------------------------
+//MARK: - showSelectedView 產生菜單
+//------------------------------
     func showSelectedView() {
         
         if isMenuAppear == true {
@@ -359,8 +353,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    //MARK: - onChanegeViewAction 切換至其它頁面
-    //----------------------------
+//MARK: - onChanegeViewAction 切換至其它頁面
+//----------------------------------------
     func onChanegeViewAction(sender:UIButton) {
         
         isMenuAppear = false
@@ -397,8 +391,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    //MARK: - removeBts 移除按鈕
-    //------------------------------
+//MARK: - removeBts 移除按鈕
+//-------------------------
     func removeBts() {
         
         if btAgain != nil && btLetter != nil {
@@ -412,8 +406,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    //MARK: - blurEffectAction 產生模糊畫面
-    //------------------------------
+//MARK: - blurEffectAction 產生模糊畫面
+//-----------------------------------
     func blurEffectAction(){
         
         if isMenuAppear == true {
@@ -427,7 +421,6 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
                 blurView = UIVisualEffectView(effect: blurEffect)
                 blurView?.frame = self.view.frame
                 blurView?.center = self.view.center
-                blurView?.alpha = 0.88
             }
             
             //將UIVisualEffectView 加到 self.view
@@ -436,8 +429,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    //MARK: - getPosition (取得圓弧形座標)
-    //------------------------------
+//MARK: - getPosition (取得圓弧形座標)
+//---------------------------------
     func getPosition(r:CGFloat,angle:CGFloat) -> CGPoint {
         
         let originPosition = CGPoint(x: 0, y: self.view.frame.size.height)
@@ -450,8 +443,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return endPosition
     }
     
-    //MARK: - gradient 漸層顏色 (圓形)
-    //------------------------------
+//MARK: - gradient 漸層顏色 (圓形)
+//------------------------------
     func gradient(view:UIView){
         
         let color1 = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.98)

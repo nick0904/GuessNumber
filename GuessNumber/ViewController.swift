@@ -4,7 +4,7 @@ import UIKit
 
 class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
 
-    //MARK: pickerView & 確認按鈕 & label 相關宣告
+    //pickerView & 確認按鈕 & label 相關宣告
     var m_lockPickerView:UIPickerView? //解鎖pickerView
     var m_pickerViewDic:[String : [String]] = [String : [String]]()
     var ary_numbers:[String] = [String]() //0~9的數字包
@@ -21,14 +21,14 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     var aryMessageLabel:[UILabel] = [UILabel]()//用來儲存 m_messageLabel 的陣列
     var ary_checkReapt = [String]() //防止確認按鈕一直被重覆按下
     
-    //MARK: 動畫相關宣告
+    //動畫相關宣告
     var m_ImgView:UIImageView? //顯示動畫的 imageView
     var aryImgView:[UIImage] = [UIImage]() //lock to Unlock
     var aryLockImgView:[UIImage] = [UIImage]() // unlock to lock
     var isLock:Bool = true //設定一開始鎖住
     var isComplete:Bool = false //猜對 或 中途重玩
     
-    //MARK: 選單按鈕相關宣告
+    //選單按鈕相關宣告
     var menuBtbackView:UILabel! //選單背景
     var menuBt:UIButton? //選單按鈕
     var isMenuAppear:Bool = false //判斷菜單是否已顯示
@@ -38,13 +38,13 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     var btGuess:UIButton! //猜數字1 按鈕
     var btTip:UIButton! //說明按鈕
     
-    //MARK: 其它頁面相關宣告
+    //其它頁面相關宣告
     var guessView:ThirdViewController? //猜數字1 的頁面
     var numView:NextViewController? //猜數字2 的頁面
     var tipView:TipViewController? //提示頁面
     
-    //MARK: - Normal function
-    //----------------------------
+//MARK: - Normal function
+//----------------------------
     func refreash(frame:CGRect) {
         
         self.view.frame = frame
@@ -176,16 +176,15 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    //MARK: - Override function
-    //----------------------------
-    
+//MARK: - Override function
+//-------------------------
     override func prefersStatusBarHidden() -> Bool { //隱藏狀態列
         
         return true
     }
     
-    //MARK: - UIPickerView DataSource & Delegate
-    //-----------------------------------------
+//MARK: - UIPickerView DataSource & Delegate
+//------------------------------------------
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
@@ -218,8 +217,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    //MARK: - onBtAction
-    //----------------------------
+//MARK: - onBtAction
+//------------------
     func onBtAction(sender:UIButton) {
         
         //先確認 ary_answer的元素數量 與 m_pickerViewDic.keys 一樣
@@ -268,8 +267,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    //MARK: - checkAryshowNums 判斷四個label.text是否都有數字
-    //---------------------------------------------------
+//MARK: - checkAryshowNums 判斷四個label.text是否都有數字
+//---------------------------------------------------
     func checkAryShowNums() -> Bool {
         
         var isReady:Bool?
@@ -298,8 +297,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    //MARK: - checkAryshowNumsdifferent 判斷四個label數字是否有重覆
-    //---------------------------------------------------------
+//MARK: - checkAryshowNumsdifferent 判斷四個label數字是否有重覆
+//---------------------------------------------------------
     func checkAryshowNumsTextdifferent() -> Bool {
         
         var allDifferent:Bool?
@@ -334,8 +333,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }//end checkAryshowNumsdifferent function
     
     
-    //MARK: - produceNums 隨機產生四個數字
-    //----------------------------
+//MARK: - produceNums 隨機產生四個數字
+//---------------------------------
     func produceNums() {
         
         var ary_total = ary_numbers
@@ -353,8 +352,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         print("\(ary_answer)")
     }
     
-    //MARK: - messageLabel 顯示訊息的標籤
-    //----------------------------
+//MARK: - messageLabel 顯示訊息的標籤
+//---------------------------------
     func messageLabel(text:String) {
         
         UIView.beginAnimations("showMessage", context: nil)
@@ -377,8 +376,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         
     }
     
-    //MARK: - determineResult
-    //------------------------
+//MARK: - determineResult
+//-----------------------
     func determineResult() {
         
         var a:Int = 0 //a代表位置正確且密碼正確
@@ -429,8 +428,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }//end determineResult function
     
     
-    //MARK: - alertShow
-    //----------------------------
+//MARK: - alertShow
+//-----------------
     func alertShow(message:String) {
         
         let alert = UIAlertController(title: "注意!", message: message, preferredStyle: UIAlertControllerStyle.Alert)
@@ -438,8 +437,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    //MARK: - checkReapetForBt
-    //----------------------------
+//MARK: - checkReapetForBt
+//------------------------
     func checkReapetForBt() -> Bool {
         
         var checkCount = 0
@@ -472,8 +471,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    //MARK: - animationView
-    //----------------------------
+//MARK: - animationView
+//---------------------
     func animationView(view:UIView) {
         
         view.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
@@ -484,8 +483,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         UIView.commitAnimations()
     }
     
-    //MARK: - removeMessageLabelFromSuperViewAndArray
-    //----------------------------
+//MARK: - removeMessageLabelFromSuperViewAndArray
+//-----------------------------------------------
     func removeMessageLabel() {
         
         for removeObj in 0 ..< aryMessageLabel.count {
@@ -496,8 +495,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         aryMessageLabel.removeAll()
     }
     
-    //MARK: - creatSelectedLabel
-    //----------------------------
+//MARK: - creatSelectedLabel
+//--------------------------
     func creatSelectedLabel() {
         
         //aryShowNums
@@ -517,8 +516,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         }
     }
     
-    //MARK: - animationPickerViewRow pikcerView歸零
-    //--------------------------------------------
+//MARK: - animationPickerViewRow pikcerView歸零
+//--------------------------------------------
     func animationPickerViewRow() {
         
         if m_lockPickerView != nil && m_pickerViewDic.keys.count != 0 {
@@ -530,8 +529,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         }
     }
     
-    //MARK: - animationStart
-    //----------------------------
+//MARK: - animationStart
+//----------------------
     func animationStart(ary:[UIImage]) {
         
         m_ImgView?.image = nil
@@ -542,8 +541,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         NSTimer.scheduledTimerWithTimeInterval(0.86, target: self, selector: #selector(ViewController.animationStop(_:)), userInfo: nil, repeats: false)
     }
     
-    //MARK: - animationStop
-    //----------------------------
+//MARK: - animationStop
+//---------------------
     func animationStop(sender:NSTimer) {
         
         m_ImgView?.stopAnimating()
@@ -560,8 +559,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         
     }
     
-    //MARK: - onMenuBtAction 菜單按鈕的方法
-    //------------------------------
+//MARK: - onMenuBtAction 菜單按鈕的方法
+//-----------------------------------
     func onMenuBtAction(sender:UIButton) {
         
         isMenuAppear = isMenuAppear == false ? true : false
@@ -572,8 +571,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         self.view.bringSubviewToFront(menuBt!)
     }
     
-    //MARK: - showSelectedView 產生菜單
-    //------------------------------
+//MARK: - showSelectedView 產生菜單
+//--------------------------------
     func showSelectedView() {
         
         if isMenuAppear == true {
@@ -649,8 +648,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         }
     }
     
-    //MARK: - onChanegeViewAction 切換至其它頁面
-    //----------------------------
+//MARK: - onChanegeViewAction 切換至其它頁面
+//----------------------------------------
     func onChanegeViewAction(sender:UIButton) {
         
         isMenuAppear = false
@@ -688,13 +687,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
             self.presentViewController(tipView!, animated: true, completion: nil)
         }
         
-        
     }
+
     
-    
-    
-    //MARK: - onAgainBtAction 再玩一次
-    //----------------------------
+//MARK: - onAgainBtAction 再玩一次
+//------------------------------
     func onAgainBtAction(sender:UIButton) {
         
         isMenuAppear = false
@@ -733,9 +730,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     
-    
-    //MARK: - blurEffectAction 產生模糊畫面
-    //------------------------------
+//MARK: - blurEffectAction 產生模糊畫面
+//-----------------------------------
     func blurEffectAction(){
         
         if isMenuAppear == true {
@@ -749,7 +745,6 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
                 blurView = UIVisualEffectView(effect: blurEffect)
                 blurView?.frame = self.view.frame
                 blurView?.center = self.view.center
-                blurView?.alpha = 0.88
             }
             
             //將UIVisualEffectView 加到 self.view
@@ -757,8 +752,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         }
     }
     
-    //MARK: - removeBts 移除按鈕
-    //------------------------------
+//MARK: - removeBts 移除按鈕
+//------------------------
     func removeBts() {
         
         if btAgain != nil && btNumber != nil {
@@ -772,8 +767,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         }
     }
     
-    //MARK: - getPosition (取得圓弧形座標)
-    //------------------------------
+//MARK: - getPosition (取得圓弧形座標)
+//---------------------------------
     func getPosition(r:CGFloat,angle:CGFloat) -> CGPoint {
         
         let originPosition = CGPoint(x: 0, y: self.view.frame.size.height)
@@ -786,8 +781,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         return endPosition
     }
     
-    //MARK: - gradient 漸層顏色 (圓形)
-    //------------------------------
+//MARK: - gradient 漸層顏色 (圓形)
+//------------------------------
     func gradient(view:UIView){
         
         let color1 = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.98)

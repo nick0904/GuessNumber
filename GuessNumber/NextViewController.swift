@@ -4,16 +4,15 @@ import UIKit
 
 class NextViewController: UIViewController {
 
-    //MARK: - playBt 相關宣告
+    //playBt 相關宣告
     var playBt:UIButton?
     
-    //MARK: - rotationBt 相關宣告
+    //rotationBt 相關宣告
     var ary_circleNum = [UILabel]()
     var m_rotationBt:RotationBtView?
     var bradgeIndex:Int?
-    var m_timer:NSTimer!
     
-    //MARK: - slider 相關宣告
+    //slider相關宣告
     var m_slider:UISlider? //選項滑桿
     var ary_sliderNumIndex = [UILabel]() //顯示滑桿數字
     var m_currentSliderIntValue:Int = 1 //讀取滑桿目前的值
@@ -29,7 +28,7 @@ class NextViewController: UIViewController {
     var ary_numbers:[String] = [String]() //0~9的數字包
     var ary_answer:[String] = [String]()//隨機生成四個數字(不可重覆),放入此陣列
     
-    //MARK: - 選單 相關宣告
+    //選單 相關宣告
     var menuBtbackView:UILabel! //選單背景
     var menuBt:UIButton? //選單按鈕
     var isMenuAppear:Bool = false //判斷菜單是否已顯示
@@ -39,14 +38,19 @@ class NextViewController: UIViewController {
     var btTip:UIButton! //說明按鈕
     var blurView:UIVisualEffectView? //產生模糊畫面
     
-    //MARK: - 切換頁面 相關宣告
+    //切換頁面 相關宣告
     var guessView:ThirdViewController?
     var letterView:ViewController?
     var tipView:TipViewController?
     
+    //計時器是否在運作
+    var m_timer:NSTimer?
+    var isTimerActivity:Bool = false
     
-    //MARK: - Override Function
-    //------------------------------
+    
+    
+//MARK: - Override Function
+//-------------------------
     override func prefersStatusBarHidden() -> Bool { //隱藏狀態列
         
         return true
@@ -57,14 +61,13 @@ class NextViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.blackColor()
         
-        
-        //m_message
+        //****************  m_message  ****************
         m_message = MyImgView()
         m_message?.refreashWithFrame(CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3))
         self.view.addSubview(m_message!)
         
         
-        //MARK: playBt
+        //****************  playBt  ****************
         playBt = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/4, height: self.view.frame.size.width/4))
         playBt?.center = CGPoint(x: self.view.frame.size.width/4*3, y: self.view.frame.size.height/8*5)
         playBt?.setImage(UIImage(named: "playBt_0.png"), forState: UIControlState.Normal)
@@ -73,7 +76,7 @@ class NextViewController: UIViewController {
         playBt?.addTarget(self, action: #selector(NextViewController.onPlayBtAction(_:)), forControlEvents: .TouchUpInside)
         self.view.addSubview(playBt!)
         
-        //MARK: create NumberAround 生成環形數字
+        //****************  create NumberAround 生成環形數字  ****************
         let angle =  CGFloat (M_PI * 2 / 10) //間隔30度
         
         let labelWidth:CGFloat = self.view.frame.size.width/5.5
@@ -92,34 +95,14 @@ class NextViewController: UIViewController {
             self.view.addSubview(label)
         }
         
-        
-        //ary_numLabel 顯示數字的標籤
-        let sideLength:CGFloat = self.view.frame.size.width/4 * 3/4
-        let space:CGFloat = (self.view.frame.size.width - 4*sideLength)/5
-        
-        for labelIndex in 0 ..< 4 {
-            
-            let label:UILabel = UILabel(frame: CGRect(x: space*CGFloat(labelIndex+1) + sideLength*CGFloat(labelIndex), y: self.view.frame.size.height/3 + space, width: sideLength, height: sideLength))
-            label.layer.cornerRadius = label.frame.size.width*0.18
-            label.layer.masksToBounds = true //UILAbel 圓角設置重點
-            label.backgroundColor = UIColor.darkGrayColor()
-            label.textColor = UIColor.whiteColor()
-            label.text = "" //label.text 預設為空值
-            label.font = UIFont.boldSystemFontOfSize(label.frame.size.height*0.68)
-            label.textAlignment = NSTextAlignment.Center
-            ary_numLabel.append(label)
-            ary_currentValue.append(label.text!)
-            self.view.addSubview(label)
-        }
-        
-        //rotationBt 旋轉按鈕
+        //****************  rotationBt 旋轉按鈕  ****************
         let rotationBtR:CGFloat = self.view.frame.size.width/2.8
         m_rotationBt = RotationBtView(frame: CGRect(x: 0, y: 0, width: rotationBtR, height: rotationBtR))
         m_rotationBt?.center = CGPoint(x: self.view.frame.size.width/3.5, y: self.view.frame.size.height/8*5)
         m_rotationBt?.userInteractionEnabled = false
         self.view.addSubview(m_rotationBt!)
         
-        //MARK: m_slider
+        //****************  m_slider  ****************
         m_slider = UISlider(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*0.88, height: 50))
         m_slider?.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/10*8.15)
         m_slider?.setThumbImage(UIImage(named: "thumb_0.png"), forState: UIControlState.Normal)
@@ -131,13 +114,13 @@ class NextViewController: UIViewController {
         m_slider?.addTarget(self, action: #selector(NextViewController.onSliderAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.view.addSubview(m_slider!)
         
+        //****************  ary_numLabel  ****************
+        self.createNumLabel()
+        
+        //****************  ary_sliderNumIndex  ****************
         let sliderNumIndexLabelW = m_slider!.frame.size.width/4
         let spaceX = (self.view.frame.size.width - m_slider!.frame.size.width) / 2
-        //let sliderNumIndexLabelX = self.view.frame.size.width*0.88/8
         let spaceY = self.view.frame.size.height/10
-        //let sliderNumIndexLabelY = self.view.frame.size.height/10*7.5
-        
-        //ary_sliderNumIndex
         for row in 0 ..< 2 {
             
             for column in 0 ..< 4 {
@@ -153,7 +136,7 @@ class NextViewController: UIViewController {
             
         }
         
-        //MARK: menuBt & menuBtbackView
+        //****************  menuBt & menuBtbackView  ****************
         let menuBtR:CGFloat = self.view.frame.size.height/4.5
         
         //menuBtbackView
@@ -171,26 +154,61 @@ class NextViewController: UIViewController {
         menuBt?.addTarget(self, action: #selector(NextViewController.onMenuBtAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(menuBt!)
         
-        //ary_numbers 0~9的數字包
+        //****************  ary_numbers 0~9的數字包  ****************
         for numIndex in 0 ..< 10 {
             
             ary_numbers.append(String(numIndex))
         }
         
-        //ary_checkReapt 先給訂一組預設值
-        for _ in 0 ..< ary_numLabel.count {
+        //****************  ary_checkReapt 先給訂一組預設值  ****************
+        for _ in 0 ..< 4 {
             
             ary_checkReapt.append("")
         }
         
         self.produceNums()
-        
-        m_timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target: self, selector: #selector(NextViewController.labelStrByRotationBt), userInfo: nil, repeats: true)
     }
     
-    //MARK: - onSliderAction 滑桿移動時呼叫的方法
-    //------------------------------
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        m_timer?.invalidate()
+        isTimerActivity = false
+        bradgeIndex = nil
+        m_rotationBt?.userInteractionEnabled = false
+    }
+    
+//MARK: - createNumLabel
+//----------------------
+    func createNumLabel() {
+        
+        //****************  ary_numLabel 顯示數字的標籤  ****************
+        let sideLength:CGFloat = self.view.frame.size.width/4 * 3/4
+        let space:CGFloat = (self.view.frame.size.width - 4*sideLength)/5
+        
+        for labelIndex in 0 ..< 4 {
+            
+            let label:UILabel = UILabel(frame: CGRect(x: space*CGFloat(labelIndex+1) + sideLength*CGFloat(labelIndex), y: self.view.frame.size.height/3 + space, width: sideLength, height: sideLength))
+            label.layer.cornerRadius = label.frame.size.width*0.18
+            label.layer.masksToBounds = true //UILAbel 圓角設置重點
+            label.backgroundColor = UIColor.darkGrayColor()
+            label.textColor = UIColor.whiteColor()
+            label.text = "" //label.text 預設為空值
+            label.font = UIFont.boldSystemFontOfSize(label.frame.size.height*0.68)
+            label.textAlignment = NSTextAlignment.Center
+            ary_numLabel.append(label)
+            ary_currentValue.append(label.text!)
+            self.view.addSubview(label)
+        }
+    }
+    
+//MARK: - onSliderAction 滑桿移動時呼叫的方法
+//----------------------------------------
     func onSliderAction(sender:UISlider) {
+        
+        m_timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target: self, selector: #selector(NextViewController.labelStrByRotationBt), userInfo: nil, repeats: true)
+        isTimerActivity = true
         
         m_rotationBt?.userInteractionEnabled = true
         playBt?.enabled = true
@@ -230,39 +248,49 @@ class NextViewController: UIViewController {
         
     }
     
-    //MARK: - labelStrByRotationBt
-    //--------------------------------
+    
+
+    var date:NSDate = NSDate(timeIntervalSinceNow: 0.1)
+    
+//MARK: - labelStrByRotationBt
+//--------------------------------
     func labelStrByRotationBt() {
+        
         
         if bradgeIndex == nil || m_rotationBt?.userInteractionEnabled == false {
             
             return
         }
         
-        if ary_numLabel[bradgeIndex!].text == "" {
+        if isTimerActivity == true {
             
-            m_rotationBt?.rotationValue = "0"
-            m_rotationBt?.referenceAngle("0")
-            self.getRotationBtValue()
-            ary_circleNum[0].textColor = UIColor.redColor()
-        }
-        else {
-            
-            self.getRotationBtValue()
-            
-            //環形數字變色
-            for numberAroundIndex in 0 ..< ary_circleNum.count {
+            if ary_numLabel[bradgeIndex!].text == "" {
                 
-                if String(numberAroundIndex) == m_rotationBt?.rotationValue {
+                m_rotationBt?.rotationValue = "0"
+                m_rotationBt?.referenceAngle("0")
+                self.getRotationBtValue()
+                ary_circleNum[0].textColor = UIColor.redColor()
+            }
+            else {
+                
+                self.getRotationBtValue()
+                
+                //環形數字變色
+                for numberAroundIndex in 0 ..< ary_circleNum.count {
                     
-                    ary_circleNum[numberAroundIndex].textColor = UIColor.redColor()
-                }
-                else {
+                    if String(numberAroundIndex) == m_rotationBt?.rotationValue {
+                        
+                        ary_circleNum[numberAroundIndex].textColor = UIColor.redColor()
+                    }
+                    else {
+                        
+                        ary_circleNum[numberAroundIndex].textColor = UIColor.whiteColor()
+                    }
                     
-                    ary_circleNum[numberAroundIndex].textColor = UIColor.whiteColor()
                 }
                 
             }
+
             
         }
         
@@ -278,8 +306,8 @@ class NextViewController: UIViewController {
     
     
     
-    //MARK: - onPlayBtAction
-    //----------------------------
+//MARK: - onPlayBtAction
+//-----------------------
     func onPlayBtAction(sender:UIButton) {
         
         if self.checkAryNumLabels() == true {// 是否都有數字
@@ -316,15 +344,15 @@ class NextViewController: UIViewController {
         m_message?.messageLabel.alpha = 1.0
     }
     
-    //MARK: - produceNums 隨機產生四個數字
-    //----------------------------
+//MARK: - produceNums 隨機產生四個數字
+//----------------------------
     func produceNums() {
         
         var ary_total = ary_numbers
         var total:Int = ary_total.count
         
         //隨機產生四個數字,不可重覆
-        for _ in 0 ..< ary_numLabel.count {
+        for _ in 0 ..< 4 {
             
             let num:Int = Int(arc4random() % UInt32(total))
             ary_answer.append(ary_total[num])
@@ -336,8 +364,8 @@ class NextViewController: UIViewController {
     }
     
     
-    //MARK: - checkAryNumLabelsDifferent 判斷四個label數字是否有重覆
-    //----------------------------------------------------------
+//MARK: - checkAryNumLabelsDifferent 判斷四個label數字是否有重覆
+//----------------------------------------------------------
     func checkAryNumLabelsDifferent() -> Bool {
         
         var allDifferent:Bool?
@@ -371,11 +399,11 @@ class NextViewController: UIViewController {
         
         return allDifferent!
         
-    }//end checkAryshowNumsdifferent function
+    }
     
     
-    //MARK: - checkAryNumLabels 判斷四個label.text是否都有數字
-    //----------------------------
+//MARK: - checkAryNumLabels 判斷四個label.text是否都有數字
+//-----------------------------------------------------
     func checkAryNumLabels() -> Bool {
         
         var isReady:Bool?
@@ -403,8 +431,8 @@ class NextViewController: UIViewController {
     }
     
     
-    //MARK: - checkReapetForBt 避免playBt被重覆按下(防呆用)
-    //-------------------------------------------------
+//MARK: - checkReapetForBt 避免playBt被重覆按下(防呆用)
+//-------------------------------------------------
     var ary_checkReapt = [String]() //防止playBt一直被重覆按下
     
     func checkReapetForBt() -> Bool {
@@ -439,8 +467,8 @@ class NextViewController: UIViewController {
         return isReapet!
     }
     
-    //MARK: - determineResult 判斷?A?B
-    //----------------------------
+//MARK: - determineResult 判斷?A?B
+//-------------------------------
     func determineResult() {
         
         var a:Int = 0 //a代表位置正確且密碼正確
@@ -476,6 +504,10 @@ class NextViewController: UIViewController {
             playBt!.enabled = false
             m_rotationBt?.userInteractionEnabled = false
             m_slider?.enabled = false
+            
+            //停止計時
+            m_timer!.invalidate()
+            isTimerActivity = false
         }
         else{
             
@@ -487,8 +519,8 @@ class NextViewController: UIViewController {
     
     
     
-    //MARK: - alertShow 警示訊息
-    //----------------------------
+//MARK: - alertShow 警示訊息
+//----------------------------
     func alertShow(message:String) {
         
         let alert = UIAlertController(title: "注意!", message: message, preferredStyle: UIAlertControllerStyle.Alert)
@@ -497,8 +529,8 @@ class NextViewController: UIViewController {
     }
     
     
-    //MARK: - onMenuBtAction 菜單按鈕的方法
-    //------------------------------
+//MARK: - onMenuBtAction 菜單按鈕的方法
+//------------------------------
     func onMenuBtAction(sender:UIButton) {
         
         isMenuAppear = isMenuAppear == false ? true : false
@@ -508,8 +540,8 @@ class NextViewController: UIViewController {
         self.view.bringSubviewToFront(menuBt!)
     }
     
-    //MARK: - showSelectedView 產生菜單
-    //------------------------------
+//MARK: - showSelectedView 產生菜單
+//------------------------------
     func showSelectedView() {
         
         if isMenuAppear == true {
@@ -583,26 +615,30 @@ class NextViewController: UIViewController {
     }
     
     
-    //MARK: - onBtAgainAction 再玩一次方法
-    //------------------------------
+//MARK: - onBtAgainAction 再玩一次方法
+//----------------------------------
     func onBtAgainAction(sender:UIButton) {
         
+        //停止計時
+        isTimerActivity = false
+        bradgeIndex = nil
+        if m_timer != nil {
+            
+            m_timer!.invalidate()
+        }
+        
+        isMenuAppear = false
         m_message?.messageLabel.text = ""
         m_message?.answerLabel.text = ""
         m_message?.image = UIImage(named: "spotlight_0.png")
         m_slider?.enabled = true
         m_slider?.value = 1.0
         
-        //ary_numLabel歸零成空字串
-        for labelIndex in 0 ..< ary_numLabel.count {
-            
-            ary_numLabel[labelIndex].text = ""
-        }
-        ary_answer.removeAll()
-        
         //旋轉按鈕歸零
         m_rotationBt?.rotationValue = "0"
         m_rotationBt?.referenceAngle("0")
+        m_rotationBt?.userInteractionEnabled = false
+        
         for circleIndex in 0 ..< ary_circleNum.count {
             
             if circleIndex == 0 {
@@ -614,27 +650,26 @@ class NextViewController: UIViewController {
             }
         }
         
-        //sliderIndext 歸零
         for sliderIndex in 0 ..< ary_sliderNumIndex.count {
             
+            //sliderIndext 歸零
             ary_sliderNumIndex[sliderIndex].textColor = UIColor.whiteColor()
         }
         
-        //ary_numLabel 歸零
-        for numLabelIndex in 0 ..< ary_numLabel.count {
-            
-            ary_numLabel[numLabelIndex].backgroundColor = UIColor.darkGrayColor()
-        }
+        self.ary_currentValue.removeAll()
+        self.ary_numLabel.removeAll()
+        ary_answer.removeAll()
         
         //重新產生四個不重覆隨機數字
         self.produceNums()
         
         self.removeBts()
         
+        self.createNumLabel()
     }
     
-    //MARK: - 切換到不同頁面的BtAction
-    //------------------------------
+//MARK: - 切換到不同頁面的BtAction
+//------------------------------
     func ChanegeView(sender:UIButton) {
         
         isMenuAppear = false
@@ -673,8 +708,8 @@ class NextViewController: UIViewController {
         }
     }
     
-    //MARK: - removeBts 移除按鈕
-    //------------------------------
+//MARK: - removeBts 移除按鈕
+//-------------------------
     func removeBts() {
         
         if btAgain != nil && btLetter != nil {
@@ -688,8 +723,8 @@ class NextViewController: UIViewController {
         }
     }
     
-    //MARK: - blurEffectAction 產生模糊畫面
-    //------------------------------
+//MARK: - blurEffectAction 產生模糊畫面
+//-----------------------------------
     func blurEffectAction(){
         
         if isMenuAppear == true {
@@ -703,7 +738,6 @@ class NextViewController: UIViewController {
                 blurView = UIVisualEffectView(effect: blurEffect)
                 blurView?.frame = self.view.frame
                 blurView?.center = self.view.center
-                blurView?.alpha = 0.88
             }
             
             //將UIVisualEffectView 加到 self.view
@@ -711,8 +745,8 @@ class NextViewController: UIViewController {
         }
     }
     
-    //MARK: - getPosition (取得圓弧形座標)
-    //------------------------------
+//MARK: - getPosition (取得圓弧形座標)
+//---------------------------------
     func getPosition(r:CGFloat,angle:CGFloat) -> CGPoint {
         
         let originPosition = CGPoint(x: 0, y: self.view.frame.size.height)
@@ -725,8 +759,8 @@ class NextViewController: UIViewController {
         return endPosition
     }
     
-    //MARK: - gradient 漸層顏色 (圓形)
-    //------------------------------
+//MARK: - gradient 漸層顏色 (圓形)
+//------------------------------
     func gradient(view:UIView){
         
         let color1 = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.98)

@@ -10,8 +10,9 @@ class RotationBtView: UIImageView {
     var currentAngle:CGFloat = 270
     var radian:CGFloat = 0 //設定弧度
     var rotationValue:String = "0"
-    //MARK: - Override Function
-    //--------------------------
+    
+//MARK: - Override Function
+//--------------------------
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -76,10 +77,8 @@ class RotationBtView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    //MARK: - 中心點與碰觸點的距離
-    //---------------------------------------
+//MARK: - 中心點與碰觸點的距離
+//---------------------------------------
     func getDistance(center:CGPoint,touchPoint:CGPoint) -> CGFloat {
         
         let dx = center.x - touchPoint.x
@@ -88,8 +87,8 @@ class RotationBtView: UIImageView {
     }
     
     
-    //MARK: - 已知中心點及角度,反求座標 (ios app)
-    //---------------------------------------
+//MARK: - 已知中心點及角度,反求座標 (ios app)
+//---------------------------------------
     func getLocation(center:CGPoint,angle:CGFloat,r:CGFloat) -> CGPoint {
         
         let radian = angle * CGFloat(M_PI) / 180
@@ -97,8 +96,8 @@ class RotationBtView: UIImageView {
         return point
     }
     
-    //MARK: - 不同象限座標點與中心點的夾角
-    //-------------------------------
+//MARK: - 不同象限座標點與中心點的夾角
+//-------------------------------
     func getAngleFromDifferentArea(center:CGPoint,location:CGPoint) -> CGFloat {
         
         if center.x <= location.x { //中心點的x座標 < 碰觸點的x座標
@@ -127,8 +126,8 @@ class RotationBtView: UIImageView {
         return radian * 180 / CGFloat(M_PI) // 回傳角度
     }
     
-    //MARK: - referenceValue
-    //-------------------------
+//MARK: - referenceValue
+//-----------------------
     func referenceValue() {
         
         switch currentAngle {
@@ -159,8 +158,8 @@ class RotationBtView: UIImageView {
         }
     }
     
-    //MARK: - referenceAngle
-    //-------------------------
+//MARK: - referenceAngle
+//-----------------------
     func referenceAngle(valueStr:String) {
         
         switch valueStr {

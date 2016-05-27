@@ -15,8 +15,8 @@ class TipViewController: UIViewController {
     var m_textLabel:UILabel!
     var m_parentObj:AnyObject?
     
-    //MARK: - Override Function
-    //----------------------
+//MARK: - Override Function
+//-------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,8 +75,8 @@ class TipViewController: UIViewController {
         return true
     }
     
-    //MARK: - onExitBtAction
-    //----------------------
+//MARK: - onExitBtAction
+//----------------------
     func onExitBtAction(sender:UIButton) {
         
         if m_parentObj != nil {
@@ -85,8 +85,8 @@ class TipViewController: UIViewController {
         }
     }
     
-    //MARK: - showTitle
-    //----------------------
+//MARK: - showTitle
+//------------------
     func showTitle() -> String {
         
         var title:String!
@@ -110,8 +110,8 @@ class TipViewController: UIViewController {
         return title
     }
     
-    //MARK: - showTips
-    //----------------------
+//MARK: - showTips
+//-----------------
     func showTips() -> String {
         
         var message:String!
